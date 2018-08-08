@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "RawFileList": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "ID": {
+              "type": "integer"
+            },
+            "Version": {
+              "type": "integer"
+            },
+            "Name": {
+              "type": "string"
+            },
+            "Description": {
+              "type": "string"
+            },
+            "Location": {
+              "type": "string"
+            },
+            "FileFormat": {
+              "type": "string"
+            },
+            "Delimiter": {
+              "type": "string"
+            },
+            "Status": {
+              "type": "string"
+            },
+            "SourceID": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "ID",
+            "Version",
+            "Name",
+            "Description",
+            "Location",
+            "FileFormat",
+            "Delimiter",
+            "Status",
+            "SourceID"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "RawFileList"
+  ]
+}

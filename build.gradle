@@ -1,4 +1,4 @@
-group 'com.dsol.fastdata.common'
+group 'com.rcggs.vdm-service'
 version '1.0-SNAPSHOT'
 
 import org.apache.tools.ant.taskdefs.condition.Os
@@ -17,21 +17,6 @@ ext{
 }
 
 
-sourceSets.main.java.srcDirs = []
-sourceSets.test.java.srcDirs = []
-
-
-/**sourceSets {
-    main {
-        resources {
-            srcDir 'src/main/resources'
-            exclude '**/test/*'
-
-        }
-    }
-}
-**/
-
 repositories {
     mavenCentral()
        maven {
@@ -44,13 +29,6 @@ configurations {
     provided
 }
 
-sourceSets {
-    main {
-        compileClasspath += configurations.provided
-        test.compileClasspath += configurations.provided
-        test.runtimeClasspath += configurations.provided
-    }
-}
 
 test {
     ignoreFailures = true
@@ -71,8 +49,8 @@ dependencies {
     compile group: 'com.mchange', name: 'c3p0', version: '0.9.5.2'
    
   
- 	compile group: 'org.apache.hbase', name: 'hbase', version: '2.0.0', ext: 'pom'
-  	compile group: 'org.apache.spark', name: 'spark-core_2.11', version: '2.3.1'
+ 	compile group: 'org.apache.hbase', name: 'hbase', version: '2.0.0'
+ 	compile group: 'org.apache.spark', name: 'spark-core_2.11', version: '2.3.1'
   	compile group: 'org.apache.hbase', name: 'hbase-client', version: '2.0.0'
 	compile group: 'org.apache.spark', name: 'spark-sql_2.11', version: '2.3.1'
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.6'
