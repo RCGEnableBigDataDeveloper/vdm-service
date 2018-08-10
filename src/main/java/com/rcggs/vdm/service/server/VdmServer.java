@@ -6,7 +6,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.rcggs.vdm.service.resource.EngineController;
+import com.rcggs.vdm.service.resource.VdmController;
 
 public class VdmServer {
 
@@ -22,7 +22,7 @@ public class VdmServer {
 		jettyServer.setHandler(context);
 		ServletHolder jerseyServlet = context.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*");
 		jerseyServlet.setInitParameter("jersey.config.server.provider.classnames",
-				EngineController.class.getCanonicalName());
+				VdmController.class.getCanonicalName());
 
 		try {
 			jettyServer.start();
