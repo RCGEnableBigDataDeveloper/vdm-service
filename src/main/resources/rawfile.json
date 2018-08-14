@@ -1,8 +1,8 @@
 {
 	"RawFile": {
-		"Name": "Customers.csv",
+		"Name": "orders.csv",
 		"Description": "Customer file from Acme Company",
-		"Location": "/home/user/data",
+		"Location": "/user/root/",
 		"FileFormat": "Delimited",
 		"Delimiter": ",",
 		"Status": "Active",

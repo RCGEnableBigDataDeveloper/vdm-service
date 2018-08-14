@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "SourceDesc": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Type": {
+          "type": "string"
+        },
+        "File": {
+          "type": "object",
+          "properties": {
+            "Hostname": {
+              "type": "string"
+            },
+            "SourcePath": {
+              "type": "string"
+            },
+            "FileFormat": {
+              "type": "string"
+            },
+            "Delimiter": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "Hostname",
+            "SourcePath",
+            "FileFormat",
+            "Delimiter"
+          ]
+        }
+      },
+      "required": [
+        "Name",
+        "Description",
+        "Type",
+        "File"
+      ]
+    }
+  },
+  "required": [
+    "SourceDesc"
+  ]
+}
