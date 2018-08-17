@@ -35,7 +35,7 @@ public class VdmController {
 		try {
 			cpds.setDriverClass("org.postgresql.Driver");
 			cpds.setJdbcUrl("jdbc:postgresql://localhost/vdm");
-			System.out.println("connected to postgres sql");
+			logger.info("connected to postgres sql");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
