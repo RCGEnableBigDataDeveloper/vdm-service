@@ -8,15 +8,9 @@ import com.rcggs.vdm.service.util.JsonUtil;
 
 public class TrifactaClient {
 
-	public static void main(String[] args) {
-		// createFlow("asdasd","asdasd");
-		// importDataset("/data", "hdfs", "imprted dataset 123", "description");
-		createWrangledDataset("test", 23, 123);
-	}
+	final Logger logger = LoggerFactory.getLogger(TrifactaClient.class);
 
-	final static Logger logger = LoggerFactory.getLogger(TrifactaClient.class);
-
-	public static int createFlow(final String name, final String description) {
+	public int createFlow(final String name, final String description) {
 		String createFlow = String.format(TrifactaTemplate.get("createFlow"),
 				name, description);
 		logger.info(createFlow);
@@ -26,7 +20,7 @@ public class TrifactaClient {
 		return JsonUtil.parse(createFlowResponse).get("id").asInt();
 	}
 
-	public static int importDataset(final String name, final String type,
+	public int importDataset(final String name, final String type,
 			final String path, final String description) {
 		String importDataset = String.format(
 				TrifactaTemplate.get("importDataset"), name, type, path,
@@ -39,8 +33,8 @@ public class TrifactaClient {
 		return JsonUtil.parse(importDatasetResponse).get("id").asInt();
 	}
 
-	public static int createWrangledDataset(final String name,
-			final int dataSetId, final int flowId) {
+	public int createWrangledDataset(final String name, final int dataSetId,
+			final int flowId) {
 		String createWrangledDataset = String.format(
 				TrifactaTemplate.get("createWrangledDataset"), name, dataSetId,
 				flowId);

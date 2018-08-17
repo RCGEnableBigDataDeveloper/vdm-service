@@ -1,4 +1,4 @@
-package com.rcggs.vdm.service;
+package com.rcggs.vdm.test.resource;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
