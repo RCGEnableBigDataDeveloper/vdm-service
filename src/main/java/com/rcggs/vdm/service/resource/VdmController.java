@@ -1,11 +1,11 @@
 package com.rcggs.vdm.service.resource;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.UUID;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +42,28 @@ public class VdmController {
 	}
 
 	@GET
+	@Path("getConnections")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response getConnections() {
+
+		String result = null;
+		try {
+			result = IOUtils
+					.toString(getClass()
+							.getResourceAsStream("/connections.txt"), "UTF-8");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Response r = Response.status(201).entity(result).build();
+
+		r.getHeaders().add("Access-Control-Allow-Origin", "*");
+		r.getHeaders().add("Access-Control-Allow-Methods",
+				"GET, POST, DELETE, PUT");
+		return r;
+	}
+
+	@GET
 	@Path("rawfile/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response getRawFile(@PathParam("id") String id) {
@@ -53,8 +76,9 @@ public class VdmController {
 		try {
 			Connection conn = cpds.getConnection();
 			Statement st = conn.createStatement();
-			String qry = String.format(
-					"SELECT ITEM_PATH, ITEM_NM FROM vdm.SERVICE_CATALOG WHERE ITEM_ID='%s'", id);
+			String qry = String
+					.format("SELECT ITEM_PATH, ITEM_NM FROM vdm.SERVICE_CATALOG WHERE ITEM_ID='%s'",
+							id);
 			System.out.println(qry);
 			ResultSet rs = st.executeQuery(qry);
 			while (rs.next()) {
@@ -83,7 +107,7 @@ public class VdmController {
 
 	@POST
 	@Path("rawfile")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response putRawfile(final String json) {
 
 		String result = null;
@@ -104,12 +128,19 @@ public class VdmController {
 			System.out.println(qry);
 			st.executeUpdate(qry);
 
-			HdfsService.put(map.getRawFile().getLocation() + map.getRawFile().getName());
+			HdfsService.put(map.getRawFile().getLocation()
+					+ map.getRawFile().getName());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return Response.status(201).entity(result).build();
+		Response r = Response.status(201).entity(result).build();
+
+		r.getHeaders().add("Access-Control-Allow-Origin", "*");
+		r.getHeaders().add("Access-Control-Allow-Methods",
+				"GET, POST, DELETE, PUT");
+		
+		return r;
 	}
 }
