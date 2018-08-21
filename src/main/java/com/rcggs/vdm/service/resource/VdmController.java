@@ -20,8 +20,10 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.rcggs.vdm.service.context.VdmServerContext;
 import com.rcggs.vdm.service.hdfs.HdfsService;
 import com.rcggs.vdm.service.model.RawFile;
+import com.rcggs.vdm.service.trifacta.TrifactaClient;
 
 @Path("/vdm")
 public class VdmController {
@@ -30,11 +32,16 @@ public class VdmController {
 
 	ComboPooledDataSource cpds;
 
+	private TrifactaClient trifactaClient = new TrifactaClient();
+
 	public VdmController() {
 		cpds = new ComboPooledDataSource();
 		try {
-			cpds.setDriverClass("org.postgresql.Driver");
-			cpds.setJdbcUrl("jdbc:postgresql://localhost/vdm");
+
+			cpds.setDriverClass(VdmServerContext.getProperty("db.driver"));
+			cpds.setJdbcUrl(VdmServerContext.getProperty("db.url"));
+			cpds.setUser(VdmServerContext.getProperty("db.user"));
+			cpds.setPassword(VdmServerContext.getProperty("db.password"));
 			logger.info("connected to postgres sql");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -128,8 +135,23 @@ public class VdmController {
 			System.out.println(qry);
 			st.executeUpdate(qry);
 
-			HdfsService.put(map.getRawFile().getLocation()
-					+ map.getRawFile().getName());
+			String name = map.getRawFile().getLocation()
+					+ map.getRawFile().getName();
+
+			HdfsService.put(name);
+
+			name = name.replaceAll("//*", "_");
+			System.out.println(name);
+			//
+			// int flowId = trifactaClient.createFlow(name + "_flow", name
+			// + "_flow description");
+			// int dataSetId = trifactaClient.importDataset("/data", "hdfs",
+			// "dataset " + name, "dataset " + name + "description");
+			// int wrangledId = trifactaClient.createWrangledDataset(name +
+			// "_wrangled",
+			// dataSetId, flowId);
+			// System.out.println(String.format(
+			// "http://52.201.45.52:3005/data/%d/%d", flowId, wrangledId));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -140,7 +162,7 @@ public class VdmController {
 		r.getHeaders().add("Access-Control-Allow-Origin", "*");
 		r.getHeaders().add("Access-Control-Allow-Methods",
 				"GET, POST, DELETE, PUT");
-		
+
 		return r;
 	}
 }

@@ -21,7 +21,6 @@ public class TrifactaClientTest extends TestCase {
 		int dataSetId = trifactaClient.importDataset("/data", "hdfs",
 				"imprted dataset 123", "description");
 		assertNotNull(dataSetId);
-
 	}
 
 	@Test

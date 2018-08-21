@@ -5,16 +5,20 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class VdmServerContext {
-	public static void main(String[] args) {
 
-		Properties prop = new Properties();
+	final private static Properties prop = new Properties();
+
+	public static String getProperty(final String name) {
+		return prop.getProperty(name);
+	}
+
+	static {
+		
 		InputStream input = null;
-
 		try {
-
-			input = VdmServerContext.class.getResourceAsStream("/vdm-server.properties");
+			input = VdmServerContext.class
+					.getResourceAsStream("/vdm-service.properties");
 			prop.load(input);
-			System.out.println(prop.getProperty("database"));
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -27,6 +31,5 @@ public class VdmServerContext {
 				}
 			}
 		}
-
 	}
 }
