@@ -20,19 +20,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class HttpUtil {
 
-	public static void get(final String resource) {
+	public static String get(final String resource) {
 
 		CloseableHttpClient client = HttpClients.createMinimal();
-		HttpGet httpGet = new HttpGet("http://ec2-23-23-22-145.compute-1.amazonaws.com:3005/v3/connections/");
+		HttpGet httpGet = new HttpGet(resource);
 		httpGet.setHeader("Content-type", "application/json");
-
-		UsernamePasswordCredentials creds = new UsernamePasswordCredentials("admin@trifacta.local", "admin");
+		String responseString = null;
+		UsernamePasswordCredentials creds = new UsernamePasswordCredentials(
+				"admin@trifacta.local", "admin");
 
 		try {
-			httpGet.addHeader(new BasicScheme().authenticate(creds, httpGet, null));
+			httpGet.addHeader(new BasicScheme().authenticate(creds, httpGet,
+					null));
 			CloseableHttpResponse response = client.execute(httpGet);
-			String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
-			System.out.println(responseString);
+			responseString = EntityUtils
+					.toString(response.getEntity(), "UTF-8");
+			//System.out.println(responseString);
 
 		} catch (AuthenticationException | ParseException | IOException e) {
 			e.printStackTrace();
@@ -43,6 +46,8 @@ public class HttpUtil {
 				e.printStackTrace();
 			}
 		}
+
+		return responseString;
 	}
 
 	public static String post(final String resource, final String body) {
@@ -54,15 +59,17 @@ public class HttpUtil {
 		try {
 			httpPost.setEntity(new StringEntity(body));
 
-			System.err.println(body);
+			//System.err.println(body);
 
-			UsernamePasswordCredentials creds = new UsernamePasswordCredentials("admin@trifacta.local", "admin");
-			httpPost.addHeader(new BasicScheme().authenticate(creds, httpPost, null));
+			UsernamePasswordCredentials creds = new UsernamePasswordCredentials(
+					"admin@trifacta.local", "admin");
+			httpPost.addHeader(new BasicScheme().authenticate(creds, httpPost,
+					null));
 
 			CloseableHttpResponse response = client.execute(httpPost);
 
-			System.out.println(response.getEntity());
-			System.out.println(response.getStatusLine());
+//			System.out.println(response.getEntity());
+//			System.out.println(response.getStatusLine());
 
 			HttpEntity entity = response.getEntity();
 
